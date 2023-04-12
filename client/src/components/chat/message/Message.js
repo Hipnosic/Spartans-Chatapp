@@ -2,6 +2,7 @@ import React from 'react';
 import './Message.css';
 const Message = ({ message: { name, user_id, text }, current_uid }) => {
     let isCurrentUser = false;
+    // If they match, it sets isCurrentUser to true, indicating that the message was sent by the current user.
     if (user_id === current_uid) {
         isCurrentUser = true;
     }

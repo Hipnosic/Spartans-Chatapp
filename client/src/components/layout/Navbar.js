@@ -3,6 +3,7 @@ import { UserContext } from '../../UserContext';
 import SignedInMenu from './SignedInMenu';
 import SignedOutMenu from './SignedOutMenu';
 const Navbar = () => {
+    // The Navbar component uses the useContext hook to access the user and setUser variables from a UserContext context. It defines a logout function that makes an asynchronous HTTP request to a local server at http://localhost:5000/logout with credentials included. Upon a successful response, it calls setUser(null) to update the user state to null, effectively logging out the user. Any errors that occur during the fetch request are logged to the console.
     const { user, setUser } = useContext(UserContext);
 
     const logout = async () => {
@@ -18,6 +19,7 @@ const Navbar = () => {
         }
 
     }
+    // The items in the navigation bar are conditionally rendered based on the user state. If user is truthy, it renders a component SignedInMenu with the logout function passed as a prop, otherwise it renders a component SignedOutMenu.
     const menu = user ? <SignedInMenu logout={logout} /> : <SignedOutMenu />
     return (
         <>
