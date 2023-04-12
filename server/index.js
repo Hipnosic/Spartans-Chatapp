@@ -33,7 +33,7 @@ const PORT = process.env.PORT || 5000;
 const Room = require('./models/Room'); 
 
 io.on('connection', (socket) => {
-    console.log(socket.id);
+    console.log("Socket id: ", socket.id);
     Room.find().then(result => {
         socket.emit('output-rooms', result)
     })
@@ -57,12 +57,14 @@ io.on('connection', (socket) => {
             console.log('join user', user)
         }
     })
-    socket.on('sendMessage', (message, room_id, callback) => {
+    socket.on('sendMessage', (message, room_id) => {
+        console.log("Socket id: ", socket.id)
         const user = getUser(socket.id);
+        console.log("User: ", user)
         console.log("USER: ", user)
         const msgToStore = {
-            // name: user.name,
-            // user_id: user.user_id,
+            name: user.name,
+            user_id: user.user_id,
             room_id,
             text: message
         }
@@ -70,7 +72,7 @@ io.on('connection', (socket) => {
         const msg = new Message(msgToStore);
         msg.save().then(result => {
             io.to(room_id).emit('message', result);
-            callback()
+
         })
 
     })

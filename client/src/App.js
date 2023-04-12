@@ -9,6 +9,7 @@ import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 function App() {
   const [user, setUser] = useState(null)
+
   useEffect(() => {
     const verifyUser = async () => {
       try {
@@ -21,13 +22,10 @@ function App() {
       } catch (error) {
         console.log("fel: ", error)
       }
-
-
     }
     verifyUser()
-
-
   }, [])
+
   return (
     <Router>
       <div className="App">
