@@ -7,6 +7,7 @@ const Room = ({ name }) => {
             <div className="card-stacked">
                 <div className="card-content">
                     <p>{name}</p>
+                    <button class="btn">Remove room</button>
                 </div>
 
             </div>

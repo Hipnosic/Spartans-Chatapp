@@ -8,40 +8,42 @@ const Home = () => {
     const { user, setUser } = useContext(UserContext);
     const [room, setRoom] = useState('');
     const [rooms, setRooms] = useState([]);
-    const ENDPT = 'localhost:5000';
+
     useEffect(() => {
-        socket = io(ENDPT);
+        socket = io("localhost:5000");
         return () => {
             socket.disconnect();
             socket.off();
         }
-    }, [ENDPT])
+    }, [])
+
     useEffect(() => {
         socket.on('output-rooms', rooms => {
             setRooms(rooms)
         })
-
     }, [])
+
     useEffect(() => {
         socket.on('room-created', room => {
             setRooms([...rooms, room])
         })
     }, [rooms])
+
     useEffect(() => {
-        console.log("rooms: ", rooms)
+        console.log("Nytt rum skapades: ", rooms)
     }, [rooms])
 
     const handleSubmit = e => {
         e.preventDefault();
         socket.emit('create-room', room);
-        console.log(room);
+        console.log("Room: ", room);
         setRoom('');
-
     }
   
     if (!user) {
         return <Navigate to='/login' />
     }
+    
     return (
         <div>
             <div className="row">
@@ -68,10 +70,9 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="col s6 m5 offset-1">
-                    <RoomList rooms={rooms} />
+                    {rooms && <RoomList rooms={rooms} />}
                 </div>
             </div>
-
         </div>
     )
 }

@@ -35,7 +35,8 @@ const Chat = () => {
         event.preventDefault();
         if (message) {
             console.log(message)
-            socket.emit('sendMessage', message, room_id, () => setMessage(''))
+            socket.emit('sendMessage', message, room_id, user._id, user.name);
+            setMessage('');
         }
     }
     if(!user){
