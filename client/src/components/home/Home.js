@@ -2,14 +2,16 @@ import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../UserContext';
 import { Navigate } from 'react-router-dom';
 import RoomList from './RoomList';
+import BroadcastList from './BroadcastList';
 import io from 'socket.io-client';
 let socket;
 const Home = () => {
     const { user, setUser } = useContext(UserContext);
     const [room, setRoom] = useState('');
     const [rooms, setRooms] = useState([]);
-    const [deleteRoom, setDeleteRoom] = useState('');
-    // sets up a socket connection to a server running on "localhost:5000" when the component mounts, and disconnects the socket and removes event listeners when the component is unmounted or when the effect is re-triggered.
+    const [broadcast, setBroadcast] = useState('');
+    const [broadcasts, setBroadcasts] = useState([]);
+
     useEffect(() => {
         socket = io("localhost:5000");
         return () => {
@@ -17,34 +19,54 @@ const Home = () => {
             socket.off();
         }
     }, [])
-    // When the 'output-rooms' event is emitted from the server, the setRooms function is called to update the state of the component with the new rooms data, triggering a re-render of the component with the updated information.
+
     useEffect(() => {
         socket.on('output-rooms', rooms => {
+            console.log("outputting rooms")
             setRooms(rooms)
         })
     }, [])
-    // This ensures that the event listener is kept up-to-date with the latest value of rooms and can react to changes in its value accordingly.
+
+    useEffect(() => {
+      socket.on('output-broadcasts', broadcasts => {
+          console.log("outputting broadcasts: ", broadcasts)
+          setBroadcasts(broadcasts)
+      })
+  }, [])
+
     useEffect(() => {
         socket.on('room-created', room => {
+            console.log("room created useeffect")
             setRooms([...rooms, room])
         })
     }, [rooms])
-    // By including rooms in the dependency array of the useEffect hook, the effect will be re-triggered whenever the value of rooms changes. This allows the code inside the effect to respond to changes in the rooms state and perform any necessary actions, such as logging the updated value to the console or triggering other side effects.
-    useEffect(() => {
-        console.log("Nytt rum skapades: ", rooms)
-    }, [rooms])
 
     useEffect(() => {
-        
-    }) 
-    // Overall, this code snippet represents a typical form submission event handler in a React component that uses socket.io to emit an event to a server and perform related actions, such as logging data to the console and updating component state.
+      socket.on('broadcast-created', broadcast => {
+          console.log("broadcast created useeffect")
+          setBroadcasts([...broadcasts, broadcast])
+      })
+  }, [broadcasts])
+
     const handleSubmit = e => {
         e.preventDefault();
         socket.emit('create-room', room);
         console.log("Room: ", room);
         setRoom('');
     }
-  
+
+    function handleRoomRemove(roomName, roomId) {
+      console.log("Room to remove: ", roomName, "with id: ", roomId);
+      socket.emit('remove-room', roomName, roomId);
+    }
+
+
+    const handleBroadcastSubmit = e => {
+      e.preventDefault();
+      socket.emit('create-broadcast', broadcast);
+      setBroadcast('');
+    }
+
     if (!user) {
         return <Navigate to='/login' />
     }
@@ -70,13 +92,35 @@ const Home = () => {
                                 </div>
                                 <button className="btn">Create Room</button>
                             </form>
+
+                              {/* För demo */}
+                              {user.admin && <form onSubmit={handleBroadcastSubmit} >
+                                <div className="row">
+                                    <div className="input-field col s12">
+                                        <input
+                                            placeholder="Enter broadcast message"
+                                            id="broadcast" type="text" className="validate"
+                                            value={broadcast}
+                                            onChange={e => setBroadcast(e.target.value)}
+                                        />
+                                        <label htmlFor="broadcast">Broadcast message</label>
+                                    </div>
+                                </div>
+                                <button className="btn">Send new broadcast</button>
+                            </form>}
+
                         </div>
-                       
                     </div>
                 </div>
                 <div className="col s6 m5 offset-1">
-                    {rooms && <RoomList rooms={rooms} />}
+                    {rooms && <RoomList rooms={rooms} handleRemove={handleRoomRemove} />}
                 </div>
+            </div>
+            <div className="row">
+                  <div className="col s12">
+                        <h2>Broadcasts</h2>
+                        {broadcasts && <BroadcastList broadcasts={broadcasts} />}
+                  </div>
             </div>
         </div>
     )

@@ -29,19 +29,51 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).t
 
 const { addUser, getUser, removeUser } = require('./util');
 const Message = require('./models/Message');
+const Broadcast = require('./models/Broadcast');
 const PORT = process.env.PORT || 5000;
 const Room = require('./models/Room'); 
 
 io.on('connection', (socket) => {
     console.log("Socket id: ", socket.id);
-    Room.find().then(result => {
-        socket.emit('output-rooms', result)
-    })
+
+      const findAllRooms = () => {
+            Room.find().then(result => {
+                  socket.emit('output-rooms', result)
+            })
+      }
+
+      const showAllBroadcasts = () => {
+            Broadcast.find().then(result => {
+                  socket.emit('output-broadcasts', result)
+            })
+      }
+
+      showAllBroadcasts();
+    findAllRooms();
     socket.on('create-room', name => {
         const room = new Room({ name });
         room.save().then(result => {
             io.emit('room-created', result)
         })
+    })
+    socket.on('create-broadcast', message => {
+      const broadcast = new Broadcast({ message });
+      broadcast.save().then(result => {
+          io.emit('broadcast-created', result)
+      })
+  })
+    socket.on('remove-room', async (roomName, roomId) => {
+      console.log("Room name: ", roomName);
+      console.log("Room Id: ", roomId);
+      try {
+            // delete room by name
+            await Room.deleteOne({name: roomName});
+            // emmit a new socket to client to update the list of rooms
+            findAllRooms();
+          } catch (err) {
+            console.log(err);
+      }
+
     })
     socket.on('join', ({ name, room_id, user_id }) => {
         const { error, user } = addUser({
@@ -72,7 +104,6 @@ io.on('connection', (socket) => {
         const msg = new Message(msgToStore);
         msg.save().then(result => {
             io.to(room_id).emit('message', result);
-
         })
 
     })

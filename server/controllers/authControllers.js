@@ -66,9 +66,9 @@ module.exports.verifyuser = (req, res, next)=>{
     const token = req.cookies.jwt;
     if(token){
         jwt.verify(token,'chatroom secret',async (err,decodedToken)=>{
-            if(err){
+            if (err){
                 console.log(err.message);
-            }else{
+            } else {
                 let user = await User.findById(decodedToken.id);
                 res.json(user);
                 next();

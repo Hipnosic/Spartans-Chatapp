@@ -7,9 +7,7 @@ import Home from './components/home/Home';
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
-// The App component uses React hooks, specifically useState and useEffect, to manage state and side effects in the component.
 function App() {
-  // The useState hook is used to declare a state variable user and a corresponding setter function setUser, with an initial value of null. This allows the component to store and update the state of the currently logged-in user.
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -22,7 +20,7 @@ function App() {
         const data = await res.json();
         setUser(data);
       } catch (error) {
-        console.log("Hoppsan något gick snett!: ", error)
+        console.log("fel: ", error)
       }
     }
     verifyUser()

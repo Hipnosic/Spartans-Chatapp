@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please enter a password'],
         minlength: [6, 'The password should be at least 6 characters long']
     },
+    admin: {
+      type: Boolean,
+      default: false,
+    }
 })
 userSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt();
