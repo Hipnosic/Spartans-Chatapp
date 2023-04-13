@@ -23,13 +23,14 @@ const userSchema = new mongoose.Schema({
       default: false,
     }
 })
+// This middleware function ensures that the password is hashed before saving a new user document or updating an existing user document, which is a common security practice to store password securely in the database.
 userSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);
 
     next()
 })
-
+// This static method can be used to authenticate users during the login process by checking if the provided email and password match the stored user credentials in the database.
 userSchema.statics.login = async function (email, password){
     const user = await this.findOne({email});
     if(user){
