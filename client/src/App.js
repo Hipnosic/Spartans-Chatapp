@@ -26,21 +26,39 @@ function App() {
     verifyUser()
   }, [])
 
-  return (
-    <Router>
-      <div className="App">
-        <UserContext.Provider value={{ user, setUser }}>
-          <Navbar />
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/chat/:room_id/:room_name" element={ <Chat />} />
-            <Route path="/signup" element={ <Signup />} />
-            <Route path="/login" element={ <Login />} />
-          </Routes>
-        </UserContext.Provider>
-      </div>
-    </Router>
-  );
+  // return (
+  //   <Router>
+  //     <div className="App">
+  //       <UserContext.Provider value={{ user, setUser }}>
+  //         <Navbar />
+  //         <Routes>
+  //           <Route exact path="/" element={<Home />} />
+  //           <Route path="/chat/:room_id/:room_name" element={ <Chat />} />
+  //           <Route path="/signup" element={ <Signup />} />
+  //           <Route path="/login" element={ <Login />} />
+  //         </Routes>
+  //       </UserContext.Provider>
+  //     </div>
+  //   </Router>
+  // );
+
+    return (
+      <Router>
+        <div className="App">
+          <UserContext.Provider value={{ user, setUser }}>
+            <Navbar />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/chat/:room_id/:room_name" element={ <Chat />} />
+              <Route path="/signup" element={ <Signup />} />
+              <Route path="/login" element={ <Login />} />
+            </Routes>
+          </UserContext.Provider>
+        </div>
+      </Router>
+    );  
+
 }
+
 
 export default App;
