@@ -13,7 +13,7 @@ const messageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    room_id: {
+    channel_id: {
         type: String,
         required: true
     },
