@@ -64,7 +64,7 @@ const Login = () => {
                       <input type="email" id="form2Example11" className="form-control"
                         placeholder="Enter your spartan worrior!" value={email}
                         onChange={e => setEmail(e.target.value)}/>
-                      <label className="form-label" for="form2Example11">Username</label>
+                      <label className="form-label" for="form2Example11">Email</label>
                       <div classNameName="email error red-text">{emailError}</div>
                     </div>
 

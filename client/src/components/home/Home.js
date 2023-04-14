@@ -87,11 +87,16 @@ const Home = () => {
     return (
         <div>
             <div className="row">
-                <div className="col s12 m6">
-                <div className="text-center pt-1 mb-5 pb-1">
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                    <img className="logoImage" src={require('../../assets/spartan.png')} alt="logo"/>Spartans Chatlobby</a>
+                    <div className="text-center pt-1 mb-5 pb-1">
                 <buttom className="btn btn-outline-danger" onClick={logout}><a href="#">Logout</a></buttom>
                 </div>
-
+                </div>
+                </nav>
+                <div className="col s12 m6">
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
                             <span className="card-title">Welcome {user ? user.name : ''}</span>
