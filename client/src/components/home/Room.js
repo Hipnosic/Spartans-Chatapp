@@ -14,8 +14,10 @@ const Room = ({ name, handleRemove, roomId, roomName }) => {
             <div className="card-stacked">
                 <div className="card-content">
                     <p>{name}</p>
-                    <button className="btn" onClick={handleClick}>Remove room</button>
+                    <button className="btn btn-outline-danger" onClick={handleClick}>Remove room</button>
+                    <button className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">
                     <Link to={'/chat/' + roomId + '/' + roomName} key={roomId} >Gå in i rum</Link>
+                    </button>
                 </div>
 
             </div>

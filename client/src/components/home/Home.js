@@ -97,17 +97,17 @@ const Home = () => {
                             <span className="card-title">Welcome {user ? user.name : ''}</span>
                             <form onSubmit={handleSubmit}>
                                 <div className="row">
-                                    <div className="input-field col s12">
+                                    <div className="form-outline mb-4">
                                         <input
                                             placeholder="Enter a room name"
-                                            id="room" type="text" className="validate"
+                                            id="form2Example11" type="text" className="form-control"
                                             value={room}
                                             onChange={e => setRoom(e.target.value)}
                                         />
                                         <label htmlFor="room">Room</label>
                                     </div>
                                 </div>
-                                <button className="btn">Create Room</button>
+                                <button className="btn btn-outline-danger">Create Room</button>
                             </form>
 
                               {/* För demo */}
@@ -123,7 +123,7 @@ const Home = () => {
                                         <label htmlFor="broadcast">Broadcast message</label>
                                     </div>
                                 </div>
-                                <button className="btn">Send new broadcast</button>
+                                <button className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Send new broadcast</button>
                             </form>}
 
                         </div>
