@@ -48,7 +48,7 @@ const Login = () => {
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col-xl-10">
           <div className="card rounded-3 text-black">
-            <div className="row g-0">
+            <div className="row g-0 align-items-center justify-content-center">
               <div className="col-lg-6">
                 <div className="card-body p-md-5 mx-md-4">
 
