@@ -97,37 +97,5 @@ const Login = () => {
     </div>
     </section>
     )
-    // return (
-
-    //     <div className="row">
-    //         <h2>Login</h2>
-    //         <form classNameName="col s12" onSubmit={submitHandler}>
-    //             <div classNameName="row">
-    //                 <div classNameName="input-field col s12">
-    //                     <input id="email" type="email" classNameName="validate"
-    //                         value={email}
-    //                         onChange={e => setEmail(e.target.value)}
-    //                     />
-    //                     <div classNameName="email error red-text">{emailError}</div>
-    //                     <label htmlFor="email">Email</label>
-    //                 </div>
-    //             </div>
-    //             <div classNameName="row">
-    //                 <div classNameName="input-field col s12">
-    //                     <input id="password" type="password" classNameName="validate"
-    //                         value={password}
-    //                         onChange={e => setPassword(e.target.value)}
-    //                     />
-    //                     <div classNameName="password error red-text">{passwordError}</div>
-    //                     <label htmlFor="password">Password</label>
-    //                 </div>
-    //             </div>
-
-    //             <button classNameName="btn">Login</button>
-    //         </form>
-    //     </div>
-
-    // )
 }
-//hej på dej
 export default Login
