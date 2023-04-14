@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../UserContext';
 import { Navigate } from 'react-router-dom';
-import RoomList from './RoomList';
+import ChannelList from './ChannelList';
 import BroadcastList from './BroadcastList';
 import io from 'socket.io-client';
 let socket;
 const Home = () => {
     const { user, setUser } = useContext(UserContext);
-    const [room, setRoom] = useState('');
-    const [rooms, setRooms] = useState([]);
+    const [channel, setChannel] = useState('');
+    const [channels, setChannels] = useState([]);
     const [broadcast, setBroadcast] = useState('');
     const [broadcasts, setBroadcasts] = useState([]);
 
@@ -21,9 +21,9 @@ const Home = () => {
     }, [])
 
     useEffect(() => {
-        socket.on('output-rooms', rooms => {
-            console.log("outputting rooms")
-            setRooms(rooms)
+        socket.on('output-channels', channels => {
+            console.log("outputting channels")
+            setChannels(channels)
         })
     }, [])
 
@@ -35,11 +35,11 @@ const Home = () => {
   }, [])
 
     useEffect(() => {
-        socket.on('room-created', room => {
-            console.log("room created useeffect")
-            setRooms([...rooms, room])
+        socket.on('channel-created', channel => {
+            console.log("channel created useeffect")
+            setChannels([...channels, channel])
         })
-    }, [rooms])
+    }, [channels])
 
     useEffect(() => {
       socket.on('broadcast-created', broadcast => {
@@ -63,14 +63,14 @@ const Home = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        socket.emit('create-room', room);
-        console.log("Room: ", room);
-        setRoom('');
+        socket.emit('create-channel', channel);
+        console.log("channel: ", channel);
+        setChannel('');
     }
 
-    function handleRoomRemove(roomName, roomId) {
-      console.log("Room to remove: ", roomName, "with id: ", roomId);
-      socket.emit('remove-room', roomName, roomId);
+    function handlechannelRemove(channelName, channelId) {
+      console.log("channel to remove: ", channelName, "with id: ", channelId);
+      socket.emit('remove-channel', channelName, channelId);
     }
 
 
@@ -104,15 +104,15 @@ const Home = () => {
                                 <div className="row">
                                     <div className="form-outline mb-4">
                                         <input
-                                            placeholder="Enter a room name"
+                                            placeholder="Enter a channel name"
                                             id="form2Example11" type="text" className="form-control"
-                                            value={room}
-                                            onChange={e => setRoom(e.target.value)}
+                                            value={channel}
+                                            onChange={e => setChannel(e.target.value)}
                                         />
-                                        <label htmlFor="room">Room</label>
+                                        <label htmlFor="channel">channel</label>
                                     </div>
                                 </div>
-                                <button className="btn btn-outline-danger">Create Room</button>
+                                <button className="btn btn-outline-danger">Create channel</button>
                             </form>
 
                               {/* För demo */}
@@ -135,7 +135,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="col s6 m5 offset-1">
-                    {rooms && <RoomList rooms={rooms} handleRemove={handleRoomRemove} />}
+                    {channels && <ChannelList channels={channels} handleRemove={handlechannelRemove} />}
                 </div>
             </div>
             <div className="row">

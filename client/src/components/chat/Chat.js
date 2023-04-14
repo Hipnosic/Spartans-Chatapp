@@ -10,13 +10,13 @@ const Chat = () => {
     const ENDPT = 'localhost:5000';
 
     const { user, setUser } = useContext(UserContext);
-    let { room_id, room_name } = useParams();
+    let { channel_id, channel_name } = useParams();
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     
     useEffect(() => {
         socket = io(ENDPT);
-        socket.emit('join', { name: user.name, room_id, user_id: user._id })
+        socket.emit('join', { name: user.name, channel_id, user_id: user._id })
     }, [])
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const Chat = () => {
     }, [messages])
 
     useEffect(() => {
-        socket.emit('get-messages-history', room_id)
+        socket.emit('get-messages-history', channel_id)
         socket.on('output-messages', messages => {
             setMessages(messages)
         })
@@ -35,7 +35,7 @@ const Chat = () => {
         event.preventDefault();
         if (message) {
             console.log(message)
-            socket.emit('sendMessage', message, room_id, user._id, user.name);
+            socket.emit('sendMessage', message, channel_id, user._id, user.name);
             setMessage('');
         }
     }

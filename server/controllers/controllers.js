@@ -4,7 +4,7 @@ const maxAge = 24 * 60 * 60
 
 // we use it for creating a token
 const createJWT = id => {
-    return jwt.sign({ id }, 'chatroom secret', {
+    return jwt.sign({ id }, 'channel secret', {
         expiresIn: maxAge // in token expiration, calculate by second
     })
 }
@@ -65,7 +65,7 @@ module.exports.login = async (req, res) => {
 module.exports.verifyuser = (req, res, next)=>{
     const token = req.cookies.jwt;
     if(token){
-        jwt.verify(token,'chatroom secret',async (err,decodedToken)=>{
+        jwt.verify(token,'channel secret',async (err,decodedToken)=>{
             if (err){
                 console.log(err.message);
             } else {

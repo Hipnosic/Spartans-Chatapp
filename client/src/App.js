@@ -37,7 +37,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="/chat/:room_id/:room_name" element={ <Chat />} />
+            <Route path="/chat/:channel_id/:channel_name" element={ <Chat />} />
             <Route path="/signup" element={ <Signup />} />
             <Route path="/login" element={ <Login />} />
           </Routes>

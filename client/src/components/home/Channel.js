@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Room = ({ name, handleRemove, roomId, roomName }) => {
+const Channel = ({ name, handleRemove, channelId, channelName }) => {
 
       function handleClick() {
-            handleRemove(roomName, roomId);
+            handleRemove(channelName, channelId);
       }
 
     return (
@@ -14,9 +14,9 @@ const Room = ({ name, handleRemove, roomId, roomName }) => {
             <div className="card-stacked">
                 <div className="card-content">
                     <p>{name}</p>
-                    <button className="btn btn-outline-danger" onClick={handleClick}>Remove room</button>
+                    <button className="btn btn-outline-danger" onClick={handleClick}>Remove channel</button>
                     <button className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">
-                    <Link to={'/chat/' + roomId + '/' + roomName} key={roomId} >Gå in i rum</Link>
+                    <Link to={'/chat/' + channelId + '/' + channelName} key={channelId} >Gå in i rum</Link>
                     </button>
                 </div>
 
@@ -26,4 +26,4 @@ const Room = ({ name, handleRemove, roomId, roomName }) => {
     )
 }
 
-export default Room
+export default Channel

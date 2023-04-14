@@ -7,11 +7,11 @@ const corsOptions = {
     credentials: true,
     optionsSuccessStatus: 200 
 }
-const authRoutes = require('./routes/authRoutes');
+const routes = require('./routes/routes');
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser()); 
-app.use(authRoutes);
+app.use(routes);
 
 
 const http = require('http').createServer(app);
@@ -31,29 +31,29 @@ const { addUser, getUser, removeUser } = require('./util');
 const Message = require('./models/Message');
 const Broadcast = require('./models/Broadcast');
 const PORT = process.env.PORT || 5000;
-const Room = require('./models/Room'); 
+const Channel = require('./models/Channel'); 
 
 io.on('connection', (socket) => {
     console.log("Socket id: ", socket.id);
 
-      const findAllRooms = () => {
-            Room.find().then(result => {
-                  socket.emit('output-rooms', result)
-            })
-      }
+    const findAllChannels = () => {
+        Channel.find().then(result => {
+                socket.emit('output-channels', result)
+        })
+    }
 
-      const showAllBroadcasts = () => {
-            Broadcast.find().then(result => {
-                  socket.emit('output-broadcasts', result)
-            })
-      }
+    const showAllBroadcasts = () => {
+        Broadcast.find().then(result => {
+                socket.emit('output-broadcasts', result)
+        })
+    }
 
-      showAllBroadcasts();
-    findAllRooms();
-    socket.on('create-room', name => {
-        const room = new Room({ name });
-        room.save().then(result => {
-            io.emit('room-created', result)
+    showAllBroadcasts();
+    findAllChannels();
+    socket.on('create-channel', name => {
+        const channel = new Channel({ name });
+        channel.save().then(result => {
+            io.emit('channel-created', result)
         })
     })
     socket.on('create-broadcast', message => {
@@ -62,34 +62,34 @@ io.on('connection', (socket) => {
           io.emit('broadcast-created', result)
       })
   })
-    socket.on('remove-room', async (roomName, roomId) => {
-      console.log("Room name: ", roomName);
-      console.log("Room Id: ", roomId);
+    socket.on('remove-channel', async (channelName, channelId) => {
+      console.log("Channel name: ", channelName);
+      console.log("Channel Id: ", channelId);
       try {
-            // delete room by name
-            await Room.deleteOne({name: roomName});
-            // emmit a new socket to client to update the list of rooms
-            findAllRooms();
+            // delete channel by name
+            await Channel.deleteOne({name: channelName});
+            // emmit a new socket to client to update the list of channel
+            findAllChannels();
           } catch (err) {
             console.log(err);
       }
 
     })
-    socket.on('join', ({ name, room_id, user_id }) => {
+    socket.on('join', ({ name, channel_id, user_id }) => {
         const { error, user } = addUser({
             socket_id: socket.id,
             name,
-            room_id,
+            channel_id,
             user_id
         })
-        socket.join(room_id);
+        socket.join(channel_id);
         if (error) {
             console.log('join error', error)
         } else {
             console.log('join user', user)
         }
     })
-    socket.on('sendMessage', (message, room_id) => {
+    socket.on('sendMessage', (message, channel_id) => {
         console.log("Socket id: ", socket.id)
         const user = getUser(socket.id);
         console.log("User: ", user)
@@ -97,18 +97,18 @@ io.on('connection', (socket) => {
         const msgToStore = {
             name: user.name,
             user_id: user.user_id,
-            room_id,
+            channel_id,
             text: message
         }
         console.log('message', msgToStore)
         const msg = new Message(msgToStore);
         msg.save().then(result => {
-            io.to(room_id).emit('message', result);
+            io.to(channel_id).emit('message', result);
         })
 
     })
-    socket.on('get-messages-history', room_id => {
-        Message.find({ room_id }).then(result => {
+    socket.on('get-messages-history', channel_id => {
+        Message.find({ channel_id }).then(result => {
             socket.emit('output-messages', result)
         })
     })
