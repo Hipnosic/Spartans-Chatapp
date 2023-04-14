@@ -21,26 +21,7 @@ const Navbar = () => {
     }
     // The items in the navigation bar are conditionally rendered based on the user state. If user is truthy, it renders a component SignedInMenu with the logout function passed as a prop, otherwise it renders a component SignedOutMenu.
     const menu = user ? <SignedInMenu logout={logout} /> : <SignedOutMenu />
-    return (
-        <>
-            <nav className="green">
-                <div className="nav-wrapper">
-                    <a href="/" className="brand-logo">Chat</a>
-                    <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
-
-
-                    <ul id="nav-mobile" className="right hide-on-med-and-down">
-                        {menu}
-
-                    </ul>
-                </div>
-            </nav>
-            <ul className="sidenav" id="mobile-demo">
-                {menu}
-            </ul>
-        </>
-
-    )
+    
 }
 
 export default Navbar

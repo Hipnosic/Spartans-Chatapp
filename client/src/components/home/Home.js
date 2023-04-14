@@ -47,6 +47,19 @@ const Home = () => {
           setBroadcasts([...broadcasts, broadcast])
       })
   }, [broadcasts])
+  const logout = async () => {
+    try {
+        const res = await fetch('http://localhost:5000/logout', {
+            credentials: 'include',
+        });
+        const data = res.json();
+        console.log('logout data', data);
+        setUser(null)
+    } catch (error) {
+        console.log(error)
+    }
+
+}
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -75,6 +88,10 @@ const Home = () => {
         <div>
             <div className="row">
                 <div className="col s12 m6">
+                <div className="text-center pt-1 mb-5 pb-1">
+                <buttom className="btn btn-outline-danger" onClick={logout}><a href="#">Logout</a></buttom>
+                </div>
+
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
                             <span className="card-title">Welcome {user ? user.name : ''}</span>
