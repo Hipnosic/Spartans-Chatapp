@@ -53,8 +53,7 @@ const Login = () => {
                 <div className="card-body p-md-5 mx-md-4">
 
                   <div className="text-center">
-                    <img className="logoImage" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                      alt="logo"/>
+                    <img className="logoImage" src={require('../../assets/spartan.png')} alt="logo"/>
                     <h4 className="mt-1 mb-5 pb-1">Spartans Chat</h4>
                   </div>
 
