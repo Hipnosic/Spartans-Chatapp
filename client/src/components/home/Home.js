@@ -112,16 +112,16 @@ const Home = () => {
                                         <label htmlFor="channel">channel</label>
                                     </div>
                                 </div>
-                                <button className="btn btn-outline-danger">Create channel</button>
+                                <button className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Create channel</button>
                             </form>
 
                               {/* För demo */}
                               {user.admin && <form onSubmit={handleBroadcastSubmit} >
-                                <div className="row">
-                                    <div className="input-field col s12">
+                                <div className="row mt-5">
+                                    <div className="form-outline mb-4">
                                         <input
                                             placeholder="Enter broadcast message"
-                                            id="broadcast" type="text" className="validate"
+                                            id="broadcast" type="text" className="validate form-control" 
                                             value={broadcast}
                                             onChange={e => setBroadcast(e.target.value)}
                                         />

@@ -14,9 +14,9 @@ const Channel = ({ name, handleRemove, channelId, channelName }) => {
             <div className="card-stacked">
                 <div className="card-content">
                     <p>{name}</p>
-                    <button className="btn btn-outline-danger" onClick={handleClick}>Remove channel</button>
+                    <button className="btn btn-outline-danger mb-3" onClick={handleClick}>Remove channel</button>
                     <button className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">
-                    <Link to={'/chat/' + channelId + '/' + channelName} key={channelId} >Gå in i rum</Link>
+                    <Link to={'/chat/' + channelId + '/' + channelName} key={channelId}>Join Channel</Link>
                     </button>
                 </div>
 
